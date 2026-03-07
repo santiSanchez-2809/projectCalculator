@@ -17,21 +17,34 @@ function divide(a, b){
 
 let number1, number2, operator;
 
-function operate(num1, num2, op){
+function operate(num1, num2, op){ 
+    let result;
+
     switch (op) {
-        case "add":
-            return add(num1, num2); 
-        case "substract": 
-            return substract(num1, num2); 
-        case "multiply": 
-            return multiply(num1, num2); 
-        case "divide": 
-            return divide(num1, num2); 
+        case "+":
+            result = add(num1, num2); 
+            break;
+        case "-": 
+            result = substract(num1, num2);
+            break;  
+        case "*": 
+            result = multiply(num1, num2);
+            break; 
+        case "/": 
+            result = divide(num1, num2);
+            break;  
         default:
             break;
     }
 
-    return 0; 
+    number1 = undefined;
+    number2 = undefined; 
+    operator = undefined;
+
+    let display = document.querySelector(".display");
+    display.textContent = Number(result.toFixed(10));
+
+    return result; 
 }
 
 function updateVariable(num){
@@ -39,17 +52,51 @@ function updateVariable(num){
 
     if(operator){
         number2 = number2? number2 + num: num;
-        display.textContent = number2;
+        display.textContent += num;
     }else{
         number1 = number1? number1 + num: num;
         display.textContent = number1;
     }
-     
-    
 }
 
+function updateOperator(op){
+    let display = document.querySelector(".display");
+    
+    if(number2){
+        number1 = operate(number1, number2, operator); 
+        number2 = undefined; 
+        operator = op; 
+
+        display.textContent += operator;
+    }else if(number1){
+        operator = op;
+        
+        display.textContent = `${number1}${operator}`;
+    }else{
+        return;
+    }
+}
 
 let numberButtons = document.querySelectorAll(".numbers > *");
 numberButtons.forEach((button => button.addEventListener("click", (e) => { 
     updateVariable(e.target.textContent); 
 })))
+
+let opButtons = document.querySelectorAll(".operators > *");
+opButtons.forEach(button => button.addEventListener("click", (e) => {
+    switch (e.target.textContent) {
+        case "+":
+        case "-":
+        case "*": 
+        case "/":
+            updateOperator(e.target.textContent); 
+            break;
+        case "=": 
+            operate(number1, number2, operator); 
+            break;
+        case "clear": 
+            clearOperation();
+        default:
+            break;
+    }
+}))
