@@ -12,7 +12,7 @@ function multiply(a, b){
 }
 
 function divide(a, b){
-    return +a / +b;
+    return +b === 0? "ERROR: Division by zero": +a / +b; 
 }
 
 let number1, number2, operator;
@@ -42,7 +42,7 @@ function operate(num1, num2, op){
     operator = undefined;
 
     let display = document.querySelector(".display");
-    display.textContent = Number(result.toFixed(10));
+    display.textContent = Number.isFinite(result)? Number(result.toFixed(10)): result;
 
     return result; 
 }
