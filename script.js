@@ -48,15 +48,33 @@ function operate(num1, num2, op){
 }
 
 function updateVariable(num){
-    let display = document.querySelector(".display");
-
     if(operator){
-        number2 = number2? number2 + num: num;
-        display.textContent += num;
+        number2 = appendDigit(number2, num); 
     }else{
-        number1 = number1? number1 + num: num;
-        display.textContent = number1;
+        number1 = appendDigit(number1, num);
     }
+}
+
+function appendDigit(num, digit){
+    let display = document.querySelector(".display");
+    
+    if(digit === "."){
+        if(!num){
+            num = "0."; 
+        }else if(!num.includes(".")){
+            num += digit; 
+        }
+    }else{
+        if(num){
+            num += digit; 
+        }else{
+            num = digit; 
+        }
+    }
+
+    display.textContent = num;
+
+    return num;
 }
 
 function updateOperator(op){
@@ -67,7 +85,7 @@ function updateOperator(op){
         number2 = undefined; 
         operator = op; 
 
-        display.textContent += operator;
+        display.textContent = `${number1}${operator}`;
     }else if(number1){
         operator = op;
         
@@ -99,6 +117,9 @@ opButtons.forEach(button => button.addEventListener("click", (e) => {
         case "*": 
         case "/":
             updateOperator(e.target.textContent); 
+            break;
+        case ".": 
+            updateVariable(e.target.textContent);
             break;
         case "=": 
             if(number2)
