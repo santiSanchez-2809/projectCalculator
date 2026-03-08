@@ -154,3 +154,8 @@ opButtons.forEach(button => button.addEventListener("click", (e) => {
             break;
     }
 }))
+
+document.addEventListener("keydown", (e) => {
+    const button = document.querySelector(`button[data-key = "${e.key}"]`);
+    if(button) button.click();
+})
