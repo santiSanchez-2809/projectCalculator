@@ -104,6 +104,25 @@ function clearOperation(){
     display.textContent = "0";
 }
 
+function undoLastInput(){
+    let display = document.querySelector(".display");
+    
+    if(number2){
+        number2 = number2.slice(0, number2.length - 1); 
+        
+        display.textContent = number2;
+    }else if(operator){
+        operator = undefined;
+
+        display.textContent = display.textContent.slice(0, number2.length);
+    }else{
+        number1 = number1.slice(0, number1.length - 1);
+
+        display.textContent = number1;
+    }
+}
+
+
 let numberButtons = document.querySelectorAll(".numbers > *");
 numberButtons.forEach((button => button.addEventListener("click", (e) => { 
     updateVariable(e.target.textContent); 
@@ -127,6 +146,10 @@ opButtons.forEach(button => button.addEventListener("click", (e) => {
             break;
         case "clear": 
             clearOperation();
+            break;
+        case "⌫": 
+            undoLastInput();
+            break;
         default:
             break;
     }
