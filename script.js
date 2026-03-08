@@ -77,6 +77,15 @@ function updateOperator(op){
     }
 }
 
+function clearOperation(){
+    number1 = undefined;
+    number2 = undefined; 
+    operator = undefined;
+
+    let display = document.querySelector(".display"); 
+    display.textContent = "0";
+}
+
 let numberButtons = document.querySelectorAll(".numbers > *");
 numberButtons.forEach((button => button.addEventListener("click", (e) => { 
     updateVariable(e.target.textContent); 
@@ -92,7 +101,8 @@ opButtons.forEach(button => button.addEventListener("click", (e) => {
             updateOperator(e.target.textContent); 
             break;
         case "=": 
-            operate(number1, number2, operator); 
+            if(number2)
+                operate(number1, number2, operator);  
             break;
         case "clear": 
             clearOperation();
